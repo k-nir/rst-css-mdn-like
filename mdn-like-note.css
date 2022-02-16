@@ -1,0 +1,840 @@
+/****************************************
+ * 本css适用于从restructuredText生成的html。
+ * 排版风格借鉴MDN。
+ ****************************************/
+
+/* || CSS自定义属性(变量) */
+
+/* 
+ * root伪类代表文档树结构的根节点，
+ * 在html中root伪类表示<html>节点。
+ */
+:root {
+	/* 
+	 * 各个元素的字体和颜色集中在一起比较方便修改，
+	 * 但是用和整体布局一样的方法，通过专门开辟一个区域，重复选择器来集中颜色和字体的规则稍显累赘，
+	 * 因此本css选择用自定义属性集中颜色和字体的值，相关规则仍分散在各个元素的样式部分中。
+	 */
+	/* 
+	 * 前缀缩写说明:
+	 *     --nm- = narrow media，为窄媒体(窄屏幕，打印)专用的属性。
+	 */
+	
+	/* 颜色自定义属性 */
+	--shallow-grey: rgb(231, 231, 231); /* 比较浅的灰白色 */
+	--pale-grey: rgb(240, 240, 240); /* 非常浅的灰白色 */
+	--deep-dark: rgb(50, 50, 50); /* 不是纯黑的黑色 */
+	
+	--toc-font-color: black; /* 目录字符颜色 */
+	--toc-background-color: white; /*目录背景色*/
+	--nm-toc-background-color: black; /* 窄媒体下的目录背景色 */
+	--nm-toc-font-color: white; /* 窄媒体下的目录字符颜色 */
+	
+	--deep-scrollbar-thumb-color: black; /* 深色滚动条拖动块颜色(用于浅色背景) */
+	--shallow-scrollbar-thumb-color: silver; /* 浅色滚动条拖动块颜色(用于深色背景) */
+	--scrollbar-thumb-hover-color: grey; /* 滚动条拖动块鼠标悬浮时颜色 */
+	--deep-scrollbar-track-color: black; /* 深色滚动条轨道颜色(用于浅色背景) */
+	--shallow-scrollbar-track-color: silver; /* 浅色滚动条轨道颜色(用于深色背景) */
+	
+	--commentary-background-color: whitesmoke; /* 注的背景色 */
+	--commentary-emphasis-border-color: black; /* 注重点边框颜色 */
+	
+	--example-background-color: transparent; /* 示例的背景色 */
+	
+	--code-background-color: whitesmoke; /* 代码段的背景色 */
+	--code-emphasis-border-color: black; /* 代码段重点边框颜色 */
+	--inline-code-background-color: whitesmoke; /* inline代码的背景色 */
+	
+	/* 字体(风格，大小)自定义属性 */
+	/*
+	 * 注释掉的自定义属性为当前未被使用的属性，供参考使用。
+	 */
+
+	--main-content-english-font: 
+		Helvetica, 
+		Arial; /* 主流英文无衬线字体(Mac OS自带) */
+	--main-content-chinese-font-mac: STXihei, "华文细黑"; /* Mac OS上的主流中文黑体 */
+	--main-content-chinese-font-windows: "Microsoft YaHei", "微软雅黑"; /* Windows上的主流中文黑体 */
+	--main-content-chinese-font-web: "Source Han Sans VF", "思源黑体 VF";
+	--main-content-chinese-font-linux: "WenQuanYi Zen Hei", "文泉驿正黑"; /*Linux上的主流中文黑体(效果一般) */
+	--main-content-chinese-font-fallback: SimSun, "宋体";
+	--main-content-font-family: 
+		var(--main-content-english-font),  
+		var(--main-content-chinese-font-mac), 
+		var(--main-content-chinese-font-windows), 
+		var(--main-content-chinese-font-web), 
+		var(--main-content-chinese-font-linux), 
+		var(--main-content-chinese-font-fallback), 
+		sans-serif;
+	/*--main-content-font-size: 1rem;*/ /* 正文字体大小 */
+	--main-content-font-weight: 350;
+
+	--headers-english-font: "Zilla Slab";
+	--headers-english-font-fallback: 
+		Rockwell, /* Windows/Mac OS Slab字体 */
+		Helvetica, 
+		Arial;
+	--headers-chinese-font: FZCuHeiSongS-B-GB, "方正粗黑宋";
+	--headers-chinese-font-web: "Source Han Sans VF Medium", "思源黑体 VF Medium";
+	--headers-chinese-font-fallback: 
+		STXihei, "华文细黑", /* Mac OS上的主流中文黑体 */
+		"Microsoft YaHei", "微软雅黑", /* Windows上的主流中文黑体 */
+		Heiti, "黑体";
+	--headers-font-family: 
+		var(--headers-english-font), 
+		var(--headers-english-font-fallback),  
+		var(--headers-chinese-font), 
+		var(--headers-chinese-font-web), 
+		var(--headers-chinese-font-fallback), 
+		sans-serif;
+	--headers-english-font-weight: bold;
+	--headers-english-font-style: normal;
+	--headers-chinese-font-weight: normal;
+	/*--headers-chinese-font-style: normal;*/
+	--title-font-size: 2rem; /* 主标题字体大小 */
+	--subtitle-font-size: 1.5rem; /* 副标题字体大小 */
+	--h1-header-font-size: 1.4rem; /* 一级头字体大小 */
+	--h2-header-font-size: 1.2rem; /* 二级头字体大小 */
+	--h3-header-font-size: 1rem; /* 三级头字体大小 */
+	
+	--toc-english-font: "Zilla Slab";
+	--toc-english-font-fallback: 
+		Rockwell, /* Windows/Mac OS Slab字体 */
+		Helvetica, 
+		Arial;
+	--toc-chinese-font: FZSongHei-B07S, "方正宋黑";
+	--toc-chinese-font-fallback: 
+		STXihei, "华文细黑", /* Mac OS上的主流中文黑体 */
+		"Microsoft YaHei", "微软雅黑", /* Windows上的主流中文黑体 */
+		Heiti, "黑体";
+	--toc-font-family:
+		var(--toc-english-font), 
+		var(--toc-english-font-fallback), 
+		var(--toc-chinese-font), 
+		var(--toc-chinese-font-fallback), 
+		sans-serif;
+	/*--toc-english-font-weight: normal;*/
+	--toc-english-font-style: normal;
+	/*--toc-chinese-font-weight: normal;*/
+	/*--toc-chinese-font-style: normal;*/
+	/*--toc-title-font-size: 1rem;*/ /* 目录标题字体大小 */
+	--nm-toc-title-font-size: 1.2rem; /* 窄媒体下的目录标题字体大小 */
+	/*--toc-h1-header-font-size: 1rem;*/ /* 目录一级列表项字体大小 */
+	/*--toc-h2-header-font-size: 1rem;*/ /* 目录二级列表项字体大小 */
+	
+	--strong-font-size: 0.95em; /* 强调字体大小 */
+	
+	--indie-paragraph-font-size: 0.9rem; /* 独立段字体大小 */
+	
+	--code-english-font: Consolas;
+	--code-english-font-fallback: 
+		"Courier New", 
+		Courier;
+	--code-chinese-font: "Source Han Mono TC", "思源等宽 TC";
+	--code-chinese-font-fallback: 
+		STXihei, "华文细黑", /* Mac OS上的主流中文黑体 */
+		"Microsoft YaHei", "微软雅黑", /* Windows上的主流中文黑体 */
+		Heiti, "黑体";
+	--code-font-family:
+		var(--code-english-font), 
+		var(--code-english-font-fallback), 
+		var(--code-chinese-font), 
+		var(--code-chinese-font-fallback), 
+		monospace;
+	--code-comment-font-style: normal;
+	--inline-code-font-size: 0.8em;
+	
+	/* 整体布局尺寸 */
+	/* 
+	 * 具体元素的内部尺寸有时需要参考整体布局的尺寸，
+	 * 因此需要将整体布局的尺寸做成自定义属性。
+	 */
+	--margin-col-min-size: 2em;
+	--margin-col-max-size: 1fr;
+	--nm-margin-col-size: 3vw;
+	--toc-col-min-size: 11em;
+	--toc-col-max-size: 12em;
+	--article-col-min-size: 35em;
+	--article-col-max-size: 50em;
+	--col-gap-size: 3vw;
+	 
+	 /* 滚动条尺寸 */
+	 /* 
+	  * 滚动条的宽度与多种元素的布局有关，
+	  * 因此需要做成自定义属性。
+	  */
+	--scrollbar-width: 10px; /* 滚动条的宽度 */
+	 /* 
+	  * 滚动条自身无法控制边距(margin属性无效)，
+	  * 因此需要在滚动条所在的元素中用padding控制边距。
+	  */
+	--scrollbar-margin-size: 7px; /* 滚动条的边距 */
+	 
+	 /* 重点边框尺寸 */
+	 /* 
+	  * 重点边框指某些独立段左侧的粗边框，
+	  * 该粗边框的作用是强调独立段，粗边框的尺寸于整体布局有关，
+	  * 故在此定义为自定义属性。
+	  */
+	 --emphasis-border-width: 6px;
+}
+
+/****************************************************************************************************/
+
+/* || 整体排版 */
+
+/* 
+ * 页面主要元素的margin都应在本节设置。
+ * 主要元素内部的排版应放在相应元素的样式节中。
+ */
+
+/* 整个文档采用grid排版 */
+div.document {
+	display: grid;
+	/*  
+	 * grid由四列组成，依次为: 边距列(空白)，目录列，文章列，边距列(空白)。
+	 */
+	grid-template-columns: 
+		minmax(var(--margin-col-min-size), var(--margin-col-max-size)) 
+		[toc-col-start] 
+		minmax(var(--toc-col-min-size), var(--toc-col-max-size)) 
+		[toc-col-end article-col-start] 
+		minmax(var(--article-col-min-size), var(--article-col-max-size)) 
+		[article-col-end] 
+		minmax(var(--margin-col-min-size), var(--margin-col-max-size));
+	column-gap: var(--col-gap-size);
+	/* 
+	 * grid的显式行由两行组成，依次为: 主标题行，副标题行，
+	 * 其他内容都安排在隐式行中。
+	 */
+	grid-template-rows: 
+		[first-row-start title-row-start] 
+		auto 
+		[subtitle-row-start] 
+		auto
+		[text-row-start];
+}
+
+/* 目录 */
+div.topic.contents {
+	/*
+	 * 目录从grid的第一行开始，延伸到最后一行，
+	 * 由于目前css中没有直接在grid安排中指定最后一行隐式行(implicit row)的方法(-1只能指定显式行(explicit row)的最后一行)，
+	 * 因此只能用迂回的方法将目录的span设成一个很大的数字，实现目录从头延伸到尾的效果。
+	 * 
+	 * 使目录从头延伸到尾的原因是为了防止目录的长度影响其所在grid行的长度，
+	 * 不延伸时，过长的目录会其所在增加grid行的高度，使处在同一行的其他元素(标题，正文等)下方出现大量空白。
+	 */
+	/* 
+	 * 目录采用sticky位置，在合适的字体大小下，目录的初始位置(12rem)应稍低于目录的悬停位置(10vh),
+	 * 滑动时，目录先随正文移动一段距离，再悬停在固定的屏幕位置上。
+	 * 字体太小时，目录看起来会式中固定在悬停位置上。
+	 */
+	/* 
+	 * 此处放弃了目录的初始和正文开头对齐的设计，
+	 * 放弃的原因如下:
+	 *     docutils生成的正文由一组与一级小节div.section组成，和标题，目录等同为div.document的直接子元素，
+	 *     将div.document设为grid容器后，在文章列中，每个div.section都必须独立成行(将所有div.section放在一个grid area中会重叠)，
+	 *     div.section的数量是不能提前知道的，因此不能将div.section安排到显式行中，只能将其安排到隐式行中。
+	 *     目前css没有指定自动排列项开始行的方法，也就是说我们无法指定div.section的开始行，
+	 *     div.section一定会紧跟在前一个有内容的grid area之后，
+	 *     然而，第一个div.section的上一行的内容是副标题，副标题不一定存在，因此div.section既可能从第2行开始，也可能从第3行开始，
+	 *     这样就不能保证目录总是与正文第一个div.section处于同一行，因此，该设计遭到了放弃。
+	 *     
+	 * 关于order:
+	 *     MDN中说，自动排列项的顺序(称为order modified document order)可被grid项的中order属性调节，
+	 *     grid容器中的所有grid项都没有order属性时，grid根据其在DOM中出现的顺序排列，
+	 *     grid项中存在具有order属性的项时，项会按照order排列(例: order为3的项会被排在第3位，order为-1的项会被排在第一位).
+	 *     然而，order对自动排列项的行序没有影响。
+	 *     选中第一个div.section，将order设为-1，grid-row设为3，
+	 *     再选中第一个div.section以外的所有div.section，将order设为1，
+	 *     并不能使所有div.section都排到第一个div.section(即第3行)之后，
+	 *     在副标题不存在的情况下，第二个div.section会被排到第2行。
+	 *     因此，order也不可行(order似乎只在flex布局中常用)。
+	 * 
+	 * 关于使主标题和副标题处于同一grid area:
+	 *     使主标题和副标题处于同一grid可以解决div.section初始行不确定的问题，
+	 *     但是处在同一grid area中的元素会重叠在一起，用在副标题上方设置大margin的做法并不理想，
+	 *     viewport变窄迫使标题换行时，还是会导致主、副标题重叠。
+	 * 
+	 * 可行的方法:
+	 *     最可行的方法是在主、副标题的html元素的外层再套一个div，或在所有div.section的外侧套一个div，
+	 *     使标题/正文整体可以放置在一个grid area中。
+	 *     这个方法需要修改docutils的docutils.writers.html4css1.Writer。
+	 */
+	grid-area: first-row-start / toc-col-start / span 9999 / auto;
+	position: sticky; /* 目录在屏幕上保持固定位置 */
+	top: 10vh; /* 目录悬停位置 */
+	margin-block-start: 12rem; /* 目录初始位置 */
+	min-block-size: 10em; /* 目录的最小长度 */
+	block-size: 70vh; /* 目录的最大长度为viewport的70% */
+}
+
+/* 目录标题 */
+div.topic.contents *.topic-title {
+	margin-block-start: 0.6em; /* 微调目录标题的位置，使之与第一节标题协调 */
+}
+
+/* 目录最外层列表(即一级头所在的列表) */
+div.topic.contents > ul {
+	block-size: 90%; /* 限制目录列表的长度 */
+	overflow: auto; /* 目录过长时滚动 */
+}
+
+/* 标题和副标题 */
+
+/* 
+ * 文章的整个标题由主标题和副标题组成，整个标题与正文的间距应为4rem，
+ * 其中副标题不一定存在，为了使副标题不存在时，主标题也能与正文保持4rem的间距，
+ * 本css将主标题的下缘设为4rem，把副标题的上缘设为-3.8rem，下缘设为4rem，
+ * 这样没有副标题时，整个标题与正文的距离是4rem，
+ * 有副标题时，副标题与主标题之间的间距是0.2rem，整个标题与正文的间距是4rem。
+ */
+h1.title,
+h2.subtitle {
+	margin-block-end: 4rem; /* 整个标题(无论有没有副标题)与正文之间的距离应为4rem */
+}
+
+/* 主标题 */
+h1.title {
+	grid-area: title-row-start / article-col;
+}
+
+/* 副标题 */
+h2.subtitle {
+	grid-area: subtitle-row-start / article-col;
+	margin-block-start: -3.8rem; /* 存在副标题时，副标题与主标题之间的间距应为0.2rem */
+}
+
+/* 一级节(即与一级头对应的节) */
+div.document > div.section {
+	grid-column: article-col; /* 所有一级小节处于文章列的隐式行中 */
+	margin-block-end: 2rem; /* 每个一级节应与其他一级节保持至少2rem的间距 */
+}
+
+/* 
+ * css有:first-child(父元素的第一个子元素), :first-of-type(父元素下第一个某个类型的子元素)，
+ * 但没有:first-of-class(父元素下第一个属于某个类的子元素)，
+ * 因此需要用迂回的方法:
+ *     使用两个规则组(ruleset)，第一个规则组选中父元素下所有属于指定类的子元素，
+ *     把指定的css样式应用到所有被选中的元素上;
+ *     第二个规则组先选中父元素下所有属于指定类的子元素，
+ *     再选中跟在第一个属于指定类的子元素后的所有属于指定类的子元素(即选中指定类子元素中除第一个以外的所有元素)，
+ *     第二个规则组取消第一个规则组的css样式，
+ *     这样指定类的子元素中就只有第一个会获得css样式(其他的指定类子元素获得css样式又失去)
+ */
+div.document > div.section > h1:first-child {
+	margin-block-start: 0; /* 使第一节的标题顶端与grid顶端对齐 */
+}
+
+div.document > div.section ~ div.section > h1:first-child {
+	/* 
+	 * margin-block-start的默认值(initial)是0，
+	 * 但浏览器的默认css可能会付给它一个非零值，
+	 * 因此需要使用revert恢复浏览器默认css值。
+	 */
+	margin-block-start: revert;
+}
+
+/* 独立段通用 */
+div.topic.commentary,
+div.docutils.container.example,
+pre.literal-block.code {
+	margin-inline: 0; /* 取消左右缩进 */
+}
+
+/* 注 */
+div.topic.commentary {
+	margin-block: 1.5em;
+}
+
+/* 示例和代码段 */
+div.docutils.container.example,
+pre.literal-block.code {
+	margin-block: 1em;
+}
+
+/* 窄媒体通用 */
+@media 
+screen and (max-width: 55rem), 
+print {
+	/* 整体布局 */
+	div.document {
+		margin-inline: var(--nm-margin-col-size);
+	}
+	
+	/* 目录 */
+	div.topic.contents {
+		all: revert; /* 清除grid布局下目录的所有样式 */
+	}
+}
+
+/* viewport宽度小于55rem时的布局，55rem大约等于最小目录宽度加上最小正文宽度(适宜阅读的每行最少字数) */
+@media screen and (max-width: 55rem) {
+	/* 整体布局 */
+	div.document {
+		/* 
+		 * 在DOM中，目录处于所有div.section之前，
+		 * (在reStructuredText中，目录只有被写在正文之前时，才会成为div.document的直接子对象，
+		 * 写在其他位置时，会成为附近div.section的子对象，使本css的grid布局失效)
+		 * 因此，在窄屏幕布局中，要把目录放到文章的末尾，就需要使用flex布局加order属性。
+		 * (普通布局不支持元素的自定义排序)
+		 */
+		display: flex;
+		flex-direction: column; /* 使flex纵向布局 */
+	}
+	
+	/* 目录 */
+	div.topic.contents {
+		order: 1; /* 把目录的order值设为div.document所有子元素中最大的，使其排在最后 */
+	}
+	
+	/* 目录以外的元素 */
+	div.document > *:not(div.topic.contents) {
+		order: -1;
+	}
+}
+
+/* 打印时使用的布局 */
+
+/* 
+ * 目前css对分页媒体的支持并不全面，因此不建议打印本css渲染出的web页面。
+ * 从reStructuredText生成latex再生成pdf会比较好。
+ */
+@media print {
+	/* 整体布局 */
+	/* 
+	 * 目前css对页面打印的支持还不完善，打印flex布局的页面会产生一些奇怪的问题:
+	 *     在chrome中，一个字符可能会在换页时被拦腰截断，分散到两个页面中;
+	 *     在firefox中，经常会出现元素重叠的情况。
+	 * 因此，本css在打印时采用block布局，以避免上述问题。
+	 */
+	div.document {
+		display: revert;
+		margin: 5vw;
+	}
+	
+	/* 标题 */
+	/* 
+	 * 在block布局下没有好的办法使元素垂直居中，vertical-align只作用于inline元素中的内容，
+	 * 设置50%的margin或padding不能适应标题很长的情况，因此本css选择不居中。
+	 */
+	h1.title,
+	h2.subtitle {
+		margin: revert; /* 取消标题的margin */
+	}
+	
+	/* 目录 */
+	div.topic.contents {
+		/* 
+		 * 目录和标题都需要独立成页，
+		 * 由于副标题存在的不确定性，不能在标题后设置强制换页，
+		 * 只能在目录前在设置强制换页。
+		 */
+		break-before: page; /* 在选中元素前强制换页 */
+		break-after: page; /* 再选中元素后强制换页 */
+	}
+	
+	/* 一级头，二级头，三级头，说明列表标题 */
+	div.section h1:first-child,
+	div.section h2:first-child,
+	div.section h3:first-child,
+	dl.docutils dt	{
+		/* 
+		 * 目前各浏览器对break-after: avoid-page的支持都不好(但对break-after: page的支持是好的)，
+		 * 导致该设置基本上没有作用。
+		 */
+		break-after: avoid-page; /* 防止换页在选中元素后发生 */
+	}
+}
+
+/****************************************************************************************************/
+
+/* || 目录样式 */
+
+/* 目录整体 */
+div.topic.contents {
+	margin-inline: 0; /* 取消目录的margin，使目录的宽度等于目录列的宽度 */
+	background-color: var(--toc-background-color);
+	font-family: var(--toc-font-family);
+	line-height: 1.8em;
+}
+
+div.topic.contents cite {
+	font-style: var(--toc-english-font-style);
+}
+
+/* 目录标题之前 */
+div.topic.contents .topic-title::before {
+	content: "\1F836"; /* 在目录标题前添加图标: Rightwards Finger-Post Arrow */
+	margin-inline-end: 0.8em;
+}
+
+/* 目录最外层列表(即一级头所在的列表) */
+div.topic.contents > ul {
+	padding-inline: 0 var(--scrollbar-margin-size); /* 最外层列左侧不缩进，右侧缩进为滚动条留出空间 */
+}
+
+/* 目录内层列表(即二，三...级头所在的列表) */
+div.topic.contents > ul ul {
+	padding-inline-start: 0.7em; /* 每深入一层，多缩进一些 */
+}
+
+/* 目录中的链接 */
+div.topic.contents a.reference.internal {
+	color: var(--toc-font-color); /* 取消超链接默认的蓝色 */
+	text-decoration: none; /* 取消下划线 */
+}
+
+/* 目录链接悬浮状态 */
+div.topic.contents a.reference.internal:hover {
+	text-decoration: underline;
+}
+
+/* 目录的列表项 */
+/* 
+ * 在页面中，属于同一一级小节的标题应排列较紧密，在视觉上形成一组，
+ * 属于不同一级小节的标题间应有较大的空隙，在视觉上分组。
+ */
+div.topic.contents li {
+	margin-block: 4px; /* 使目录列表项之间有一定的间距 */
+}
+
+/* 目录一级列表项 */
+div.topic.contents > ul > li {
+	margin-block: 10px; /* 使目录的一级列表项之间的间距较大 */
+}
+
+div.topic.contents > ul > li > a.reference.internal {
+	/*font-weight: bold;*/
+}
+
+/* 窄屏幕，打印中的目录样式 */
+@media 
+screen and (max-width: 55rem), 
+print {
+	/* 目录整体 */
+	div.topic.contents {
+		margin-block-start: 4rem;
+		padding-block: 1em;
+	}
+	
+	/* 目录的标题 */
+	div.topic.contents p.topic-title {
+		font-weight: normal;
+		font-size: var(--nm-toc-title-font-size);
+	}
+	
+	/* 目录标题前面的装饰 */
+	div.topic.contents .topic-title::before {
+		margin-inline-end: 0.5em;
+	}
+	
+	div.topic.contents > ul > li > a.reference.internal {
+		/*font-weight: normal;*/
+	}
+	
+	/* 目录列表项 */
+	div.topic.contents li,
+	div.topic.contents > ul > li {
+		margin-block: 20px; /* 使所有目录列表项具有相同的间距 */
+	}
+}
+
+/* 窄屏幕特有的目录样式 */
+@media screen and (max-width: 55rem) {
+	/* 目录整体 */
+	/* 
+	 * 窄屏幕中的目录处在web页面的底部，
+	 * 为了与文章内容区分，目录使用深色背景，浅色文字。
+	 */
+	div.topic.contents {
+		color: var(--nm-toc-font-color);
+		background-color: var(--nm-toc-background-color);
+		/* 
+		 * 由于div.document(和body)的边距设置，目录元素的宽度为100%时，与viewport的边界间仍会有一些间隙，
+		 * 要填上左右两侧的间隙，需要使用不会增加元素实际尺寸的边框，此处用box-shadow实现这个效果。
+		 * (outline也不会增加实际尺寸，但outline的4条边必须等宽，不能单独设定一条边的宽度)
+		 */
+		box-shadow: 
+			calc(3 * var(--nm-margin-col-size)) 0 var(--nm-toc-background-color), 
+			calc(-3 * var(--nm-margin-col-size)) 0 var(--nm-toc-background-color);
+	}
+	
+	div.topic.contents a.reference.internal {
+		color: var(--nm-toc-font-color);
+	}
+}
+
+/****************************************************************************************************/
+
+/* || 滚动条样式 */
+
+/* 
+ * css目前没有在浏览器间通用的滚动条自定义机制，
+ * safari/chrome对css滚动条自定义的支持较好，firefox的支持较差。
+ * 一般而言，通用的滚动条是通过javascript实现的。
+ * 本css目前只使用safari/chrome的滚动条自定义机制，故自定义效果只能在safari/chrome系浏览器中显示。
+ */
+/* 
+ * 本滚动条仅限div.document内部使用(整个页面的总想和横向滚动条不会受到影响)。
+ */
+
+/* 通用样式 */
+
+/* 滚动条整体 */
+div.document *::-webkit-scrollbar {
+	/* 
+	 * 横向滚动条的宽度由height控制，
+	 * 纵向滚动条的宽度由width控制。
+	 */
+	inline-size: var(--scrollbar-width);
+	block-size: var(--scrollbar-width);
+}
+
+/* 滚动条拖动部分 */
+div.document *::-webkit-scrollbar-thumb {
+	border-radius: 3px;
+}
+
+/* 滚动条轨道部分(不包括拖动部分) */
+div.document *::-webkit-scrollbar-track-piece:vertical {
+	/* 
+	 * 在本滚动条中，拖动部分的宽度比轨道宽，因此需要将轨道的边缘藏起来一点。
+	 * 由于margin在此处无效，只能用border迂回地实现效果。
+	 */
+	/*
+	 * 实现拖动部分宽于轨道的办法还有一种，
+	 * 这种方法将滚动条整体的宽度设为轨道的宽度，
+	 * 用outline加粗拖动部分。
+	 * (拖动部分的宽度受限于滚动条整体的宽度，因此设置border不能使拖动部分变得比滚动条整体更宽;
+	 * outline只是视觉效果，对box的尺寸没有影响，也不受空间的限制，因此可以用来加粗拖动部分)
+	 * 这个方法的优点是不用在轨道部分设置白色的border(设置透明的border会透出背景色),
+	 * 缺点是拖动部分的outline不会响应鼠标悬浮，导致鼠标难以操作拖动部分，故弃用。
+	 */
+	border: 3px solid;
+}
+
+/* 目录列表的 */
+div.topic.contents *::-webkit-scrollbar-thumb {
+	background-color: var(--deep-scrollbar-thumb-color);
+}
+
+/* 滚动条拖动部分悬浮状态 */
+div.topic.contents *::-webkit-scrollbar-thumb:hover {
+	background-color: var(--scrollbar-thumb-hover-color); /* 滚动条hover伪类的背景色必须在原元素的背景色之后设置才有效 */
+}
+
+/* 目录列表的滚动条轨道部分 */
+div.topic.contents *::-webkit-scrollbar-track-piece {
+	background-color: var(--deep-scrollbar-track-color);
+	border-color: var(--toc-background-color);
+}
+
+pre.literal-block.code::-webkit-scrollbar-thumb {
+	background-color: var(--shallow-scrollbar-thumb-color);
+}
+
+pre.literal-block.code::-webkit-scrollbar-thumb:hover {
+	background-color: var(--scrollbar-thumb-hover-color);
+}
+
+pre.literal-block.code::-webkit-scrollbar-track-piece {
+	background-color: inherit;
+	border-color: var(--code-background-color);
+}
+
+/****************************************************************************************************/
+
+/* || 标题样式 */
+
+h1.title,
+h2.subtitle,
+div.section h1:first-child,
+div.section h2:first-child,
+div.section h3:first-child {
+	font-family: var(--headers-font-family);
+	font-weight: var(--headers-chinese-font-weight);
+}
+
+h1.title cite,
+h2.subtitle cite,
+div.section h1:first-child cite,
+div.section h2:first-child cite,
+div.section h3:first-child cite {
+	font-weight: var(--headers-english-font-weight);
+	font-style: var(--headers-english-font-style);
+}
+
+/* 标题整体 */
+h1.title,
+h2.subtitle {
+	text-align: left;
+}
+
+/* 窄屏幕，打印中的标题整体样式 */
+@media 
+screen and (max-width: 55rem),
+print {
+	h1.title,
+	h2.subtitle {
+		text-align: center;
+	}
+}
+
+/* 窄屏幕特有的标题整体样式 */
+@media screen and (max-width: 55rem) {
+	h1.title,
+	h2.subtitle {
+		padding-inline: 5vw 9vw; /* 正文的左边密右边疏，因此此处将标题整体微微向左移，使其与正文看起来更协调 */
+	}
+}
+
+/* 大标题 */
+h1.title {
+	font-size: var(--title-font-size);
+}
+
+/* 副标题 */
+h2.subtitle {
+	font-size: var(--subtitle-font-size);
+}
+
+/* 一级头 */
+div.section h1:first-child {
+	font-size: var(--h1-header-font-size);
+}
+
+/* 二级头 */
+div.section h2:first-child {
+	font-size: var(--h2-header-font-size);
+}
+
+/* 三级头 */
+div.section h3:first-child {
+	font-size: var(--h3-header-font-size);
+}
+
+/****************************************************************************************************/
+
+/* || 正文样式 */
+
+/* 正文 */
+div.document div.section {
+	font-family: var(--main-content-font-family);
+	font-weight: var(--main-content-font-weight);
+	line-height: 1.6em;
+}
+
+/****************************************************************************************************/
+
+/* || 超链接样式 */
+
+/* 超链接悬浮状态 */
+a.reference:hover {
+	text-decoration: none; /* 消去下划线 */
+}
+
+/****************************************************************************************************/
+
+/* || 强调样式 */
+
+/* 强调元素(restructuredText中的 **text**) */
+strong {
+	font-size: var(--strong-font-size);
+}
+
+/****************************************************************************************************/
+
+/* || 独立段样式 */
+
+/*
+ * 独立段与正文分离，自成一段。
+ * 独立段分为3种: 注，示例，代码段。
+ */
+
+/* 独立段通用 */
+div.topic.commentary,
+div.docutils.container.example,
+pre.literal-block.code {
+	font-size: var(--indie-paragraph-font-size);
+	padding-inline: 1em;
+	line-height: 1.4em;
+}
+
+/* 注和代码段通用 */
+div.topic.commentary,
+pre.literal-block.code {
+	border-inline-start: var(--emphasis-border-width) solid;
+}
+
+/* 注和示例通用 */
+div.topic.commentary,
+div.docutils.container.example {
+	padding-block: 0.3em;
+}
+
+/****************************************************************************************************/
+
+/* || 注样式 */
+
+/* 注 */
+div.topic.commentary {
+	background-color: var(--commentary-background-color);
+	border-color: var(--commentary-emphasis-border-color);
+}
+
+/* 注的标题和段之间的空隙 */
+div.topic.commentary p {
+	margin-block: 0.2em;
+}
+
+/****************************************************************************************************/
+
+/* || 示例样式 */
+
+/* 示例 */
+div.docutils.container.example {
+	background-color: var(--example-background-color);
+}
+
+/****************************************************************************************************/
+
+/* || 代码段样式 */
+
+/* 代码段 */
+pre.literal-block.code {
+	/* 
+	 * 代码段在选然后也总是保留html中的字面格式，
+	 * 因此代码段中的文本不会因为viewport变窄而换行，
+	 * 因此需要在viewport过窄时启用滚动条。
+	 */
+	overflow: auto;
+	padding-block: 0.5em calc(0.5em + var(--scrollbar-margin-size));
+	background-color: var(--code-background-color);
+	border-color: var(--code-emphasis-border-color);
+	font-family: var(--code-font-family);
+}
+
+/* 代码段中的注释 */
+pre.literal-block.code span.c1 {
+	font-style: var(--code-comment-font-style);
+}
+
+/****************************************************************************************************/
+
+/* || inline代码样式 */
+
+/*
+ * inline代码指嵌在代码段以外文本中的代码。
+ */
+
+/* inline代码(restructedText中的 ``text``) */
+tt.docutils.literal {
+	font-family: var(--code-font-family);
+	font-size: var(--inline-code-font-size);
+	padding-block: 0.1em;
+	padding-inline: 0.3em;
+	background-color: var(--inline-code-background-color);
+	border-radius: 0.2em;
+}
