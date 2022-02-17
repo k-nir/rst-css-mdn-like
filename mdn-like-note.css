@@ -464,6 +464,10 @@ div.topic.contents cite {
 	font-style: var(--toc-english-font-style);
 }
 
+div.topic.contents .topic-title {
+	margin-block-end: 0.3em;
+}
+
 /* 目录标题之前 */
 div.topic.contents .topic-title::before {
 	content: "\1F836"; /* 在目录标题前添加图标: Rightwards Finger-Post Arrow */
@@ -473,6 +477,7 @@ div.topic.contents .topic-title::before {
 /* 目录最外层列表(即一级头所在的列表) */
 div.topic.contents > ul {
 	padding-inline: 0 var(--scrollbar-margin-size); /* 最外层列左侧不缩进，右侧缩进为滚动条留出空间 */
+	margin-block-start: 0;
 }
 
 /* 目录内层列表(即二，三...级头所在的列表) */
@@ -489,6 +494,8 @@ div.topic.contents a.reference.internal {
 /* 目录链接悬浮状态 */
 div.topic.contents a.reference.internal:hover {
 	text-decoration: underline;
+	text-underline-offset: 0.15em;
+	text-decoration-thickness: 0.15em;
 }
 
 /* 目录的列表项 */
@@ -497,12 +504,12 @@ div.topic.contents a.reference.internal:hover {
  * 属于不同一级小节的标题间应有较大的空隙，在视觉上分组。
  */
 div.topic.contents li {
-	margin-block: 4px; /* 使目录列表项之间有一定的间距 */
+	margin-block: 0.15em; /* 使目录列表项之间有一定的间距 */
 }
 
 /* 目录一级列表项 */
 div.topic.contents > ul > li {
-	margin-block: 10px; /* 使目录的一级列表项之间的间距较大 */
+	margin-block: 0.25em; /* 使目录的一级列表项之间的间距较大 */
 }
 
 div.topic.contents > ul > li > a.reference.internal {
@@ -522,7 +529,7 @@ print {
 	/* 目录的标题 */
 	div.topic.contents p.topic-title {
 		font-weight: normal;
-		font-size: var(--nm-toc-title-font-size);
+		/*font-size: var(--nm-toc-title-font-size);*/
 	}
 	
 	/* 目录标题前面的装饰 */
@@ -537,7 +544,7 @@ print {
 	/* 目录列表项 */
 	div.topic.contents li,
 	div.topic.contents > ul > li {
-		margin-block: 20px; /* 使所有目录列表项具有相同的间距 */
+		margin-block: 0.6em; /* 使所有目录列表项具有相同的间距 */
 	}
 }
 
